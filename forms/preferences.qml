@@ -62,6 +62,7 @@ ApplicationWindow {
         anchors.top: ssidText.bottom
         anchors.topMargin: 5
         model: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+        currentIndex: ssid-1
     }
 
     Text {
@@ -71,9 +72,9 @@ ApplicationWindow {
         width: 60
         text: qsTr("Passcode:")
         anchors.left: parent.left
-        anchors.leftMargin: 300
+        anchors.leftMargin: 175
         anchors.topMargin: 5
-        anchors.top: introText.bottom
+        anchors.top: aprsisText.bottom
         font.pixelSize: 12
     }
 
@@ -82,8 +83,8 @@ ApplicationWindow {
         x: 5
         width: 80
         text: passcode
-        anchors.left: parent.left
-        anchors.leftMargin: 300
+        anchors.left: passcodeText.left
+        anchors.leftMargin: 0
         anchors.topMargin: 5
         maximumLength: 8
         anchors.top: passcodeText.bottom
@@ -97,7 +98,7 @@ ApplicationWindow {
         anchors.left: parent.left
         anchors.leftMargin: 40
         anchors.top: introText.bottom
-        anchors.topMargin: 82
+        anchors.topMargin: 80
         wrapMode: Text.WordWrap
     }
 
@@ -130,8 +131,8 @@ ApplicationWindow {
     Text {
         id: lonText
         text: qsTr("Longitude:")
-        anchors.left: latText.right
-        anchors.leftMargin: 100
+        anchors.left: parent.left
+        anchors.leftMargin: 175
         anchors.top: homestnText.bottom
         anchors.topMargin: 5
         font.pixelSize: 12
@@ -141,8 +142,8 @@ ApplicationWindow {
         id: lonInput
         width: 60
         text: homeLon
-        anchors.left: latInput.right
-        anchors.leftMargin: 100
+        anchors.left: parent.left
+        anchors.leftMargin: 175
         anchors.top: lonText.bottom
         anchors.topMargin: 5
         font.pixelSize: 12
@@ -151,6 +152,32 @@ ApplicationWindow {
             top: 90
         }
         inputMask: "#00.000"
+    }
+
+    Text {
+        id: radiusText
+        text: qsTr("Radius:")
+        anchors.left: parent.left
+        anchors.leftMargin: 40
+        anchors.topMargin: 5
+        anchors.top: aprsisText.bottom
+        font.pixelSize: 12
+    }
+
+    TextField {
+        id: radiusInput
+        width: 60
+        text: radius
+        anchors.left: radiusText.left
+        inputMask: "000"
+        anchors.leftMargin: 0
+        anchors.topMargin: 5
+        anchors.top: radiusText.bottom
+        font.pixelSize: 12
+        validator: DoubleValidator {
+            bottom: -90
+            top: 90
+        }
     }
 
     Button {
@@ -170,6 +197,38 @@ ApplicationWindow {
         onClicked: prefs.destroy()
     }
 
+    Text {
+        id: aprsisText
+        x: -4
+        width: 400
+        text: qsTr("APRS-IS Details:")
+        anchors.left: parent.left
+        anchors.leftMargin: 40
+        anchors.topMargin: 80
+        anchors.top: homestnText.bottom
+        wrapMode: Text.WordWrap
+    }
+
+    CheckBox {
+        id: aprsisInput
+        anchors.top: aprsisConnect.bottom
+        anchors.topMargin: 5
+        anchors.left: aprsisConnect.left
+        anchors.leftMargin: 0
+        checked: aprsisConnection
+
+    }
+
+    Text {
+        id: aprsisConnect
+        text: qsTr("Connect to APRS-IS?")
+        anchors.left: parent.left
+        anchors.leftMargin: 300
+        anchors.top: aprsisText.bottom
+        anchors.topMargin: 5
+        font.pixelSize: 12
+    }
+
     function saveVars()
     {
         //save values for use in program
@@ -178,13 +237,16 @@ ApplicationWindow {
         passcode = passcodeInput.text
         homeLat = latInput.text
         homeLon = lonInput.text
+        radius = radiusInput.text
+        aprsisConnection = aprsisInput.checkedState
         // write to config file
         settings.callsign = callsign
         settings.ssid = ssid
         settings.passcode = passcode
         settings.homeLat = homeLat
         settings.homeLon = homeLon
-
+        settings.radius = radius
+        settings.aprsisConnection = aprsisConnection
         prefs.destroy()
     }
 }

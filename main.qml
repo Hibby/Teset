@@ -19,7 +19,8 @@ ApplicationWindow {
     property string callsign: settings.callsign
     property string ssid: settings.ssid
     property string passcode: settings.passcode
-
+    property int radius: settings.radius
+    property bool aprsisConnection: settings.aprsisConnection
     //Intiialise settings - where does this file live?
     Settings {
     id: settings
@@ -28,7 +29,9 @@ ApplicationWindow {
     property double homeLon: -2.1
     property string callsign: "N0CALL"
     property string ssid: "1"
-    property string passcode: "093184"
+    property string passcode: ""
+    property int radius: 50
+    property bool aprsisConnection: false
     // Window Size Prefs
     property alias x: teset.x
     property alias y: teset.y
