@@ -8,6 +8,7 @@ aprspacket::aprspacket()
 {
 }
 
+// Incoming data from aprsis.cpp - readyRead function
 void aprspacket::parseAPRS(char *input) {
 
     qDebug() << "Initialising LibFap";

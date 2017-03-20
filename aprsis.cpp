@@ -97,16 +97,18 @@ void aprsis::readyRead()
     // read the data from the socket
 
     QByteArray interim = socket->read(256);
-
+    // copy the pointer to the data in the 'interim' byte array
     char *msg = interim.data();
-
+    // output data in the byte array to the terminal
     qDebug() << msg;
 
-   //libfap goes in here
+   // Check if the incming packet starts with #. If so, ignore it
    if (msg[0] == '#') {
    qDebug() << "Not interested in this packet";
    } else {
+   // create libfap object
    aprspacket packet;
+   // pass byte array to libfap
    packet.parseAPRS(msg);
     }
 }
