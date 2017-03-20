@@ -1,12 +1,11 @@
 #include "aprsis.h"
 #include <QSettings>
 #include <QVariant>
+#include "aprspacket.h"
 
-aprsis::aprsis(QObject *parent) :
-    QObject(parent)
+aprsis::aprsis(QObject *parent) :   QObject(parent)
 {
 }
-
 
 void aprsis::aprsConnect()
 {
@@ -92,10 +91,22 @@ void aprsis::bytesWritten(qint64 bytes)
 
 void aprsis::readyRead()
 {
+
     qDebug() << "reading...";
 
     // read the data from the socket
-    qDebug() << socket->readAll();
 
-    //libfap goes in here
+    QByteArray interim = socket->read(256);
+
+    char *msg = interim.data();
+
+    qDebug() << msg;
+
+   //libfap goes in here
+   if (msg[0] == '#') {
+   qDebug() << "Not interested in this packet";
+   } else {
+   aprspacket packet;
+   packet.parseAPRS(msg);
+    }
 }

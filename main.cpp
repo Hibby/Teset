@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "aprsis.h"
+#include "aprspacket.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +19,5 @@ int main(int argc, char *argv[])
 
     aprsis sock;
     sock.aprsConnect();
-
     return app.exec();
 }

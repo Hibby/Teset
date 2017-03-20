@@ -5,7 +5,6 @@ import QtLocation 5.7
 import QtPositioning 5.7
 import Qt.labs.settings 1.0
 
-
 // Create Window
 ApplicationWindow {
     id: teset
@@ -21,7 +20,7 @@ ApplicationWindow {
     property string passcode: settings.passcode
     property int radius: settings.radius
     property bool aprsisConnection: settings.aprsisConnection
-    //Intiialise settings - where does this file live?
+    //Intiialise settings - settings file lives in ~/config/Hibby/Teset.conf
     Settings {
     id: settings
     // Home station settings
@@ -210,13 +209,6 @@ ApplicationWindow {
                 map.zoomLevel = value
         }
     }
-    /* Component.onDestruction: {
-        settings.callsign = teset.callsign
-        settings.homeLat = teset.homeLat
-        settings.homeLon = teset.homeLon
-        settings.ssid = teset.ssid
-        settings.passcode = teset.passcode
-    } */
 
 }
 

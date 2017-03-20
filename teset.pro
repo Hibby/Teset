@@ -4,9 +4,12 @@ QT += core qml quick positioning network
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    aprsis.cpp
+    aprsis.cpp \
+    aprspacket.cpp
 
 RESOURCES += qml.qrc
+
+LIBS += -lfap
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -34,4 +37,5 @@ DISTFILES += \
     forms/preferences.qml
 
 HEADERS += \
-    aprsis.h
+    aprsis.h \
+    aprspacket.h
