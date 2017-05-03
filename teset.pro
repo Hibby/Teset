@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += core qml quick positioning network
+QT += core qml quick positioning network sql
 CONFIG += c++11
 
 SOURCES += main.cpp \

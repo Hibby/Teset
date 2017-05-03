@@ -2,7 +2,10 @@
 #include <QVariant>
 #include <QDebug>
 #include <QString>
+#include <QtSql>
+#include <QDateTime>
 #include <fap.h>
+
 
 aprspacket::aprspacket()
 {
@@ -10,7 +13,6 @@ aprspacket::aprspacket()
 
 // Incoming data from aprsis.cpp - readyRead function
 void aprspacket::parseAPRS(char *input) {
-
     qDebug() << "Initialising LibFap";
     fap_packet_t* packet;
     unsigned int input_len = strlen(input);
@@ -33,6 +35,18 @@ void aprspacket::parseAPRS(char *input) {
                     qDebug() << *packet->latitude;
                     qDebug() << *packet->longitude;
                     //newPacketChanged(packet->src_callsign);
+                    QSqlQuery query;
+                    if (!query.exec(QLatin1String("create table stations(callsign varchar, type int, latitude float, longitude float, comment varchar, timestamp qint64)"))){
+                    }
+                    query.prepare("INSERT INTO stations (callsign, type, latitude, longitude, comment, timestamp) " "VALUES (?, ?, ?, ?, ?, ?)");
+                    query.addBindValue(packet->src_callsign);
+                    query.addBindValue(*packet->type);
+                    query.addBindValue(*packet->latitude);
+                    query.addBindValue(*packet->longitude);
+                    query.addBindValue(packet->comment);
+                    query.addBindValue(QDateTime::currentMSecsSinceEpoch()/1000);
+                    query.exec();
+
             }
             qDebug() << "packet cleaning";
             fap_free(packet);
